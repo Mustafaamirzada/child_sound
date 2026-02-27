@@ -591,7 +591,7 @@ final List<WordItem> twoSyllableWords = [
   ),
   WordItem(
     word: 'حساب',
-    emoji: 'assets/images/icons8--100.png',
+    emoji: 'assets/images/count.jpg',
     sound: 'sounds/two_syllable/.mp3',
   ),
   WordItem(
@@ -606,7 +606,7 @@ final List<WordItem> twoSyllableWords = [
   ),
   WordItem(
     word: 'خراب',
-    emoji: 'assets/images/',
+    emoji: 'assets/images/destroy.jpg',
     sound: 'sounds/two_syllable/.mp3',
   ),
   WordItem(
@@ -641,7 +641,7 @@ final List<WordItem> twoSyllableWords = [
   ),
   WordItem(
     word: 'راضی',
-    emoji: 'assets/images/',
+    emoji: 'assets/images/satisfied.jpg',
     sound: 'sounds/two_syllable/.mp3',
   ),
   WordItem(
@@ -666,7 +666,7 @@ final List<WordItem> twoSyllableWords = [
   ),
   WordItem(
     word: 'ساختن',
-    emoji: 'assets/images/icons8--100.png',
+    emoji: 'assets/images/',
     sound: 'sounds/two_syllable/.mp3',
   ),
   WordItem(
@@ -686,7 +686,7 @@ final List<WordItem> twoSyllableWords = [
   ),
   WordItem(
     word: 'شاگرد',
-    emoji: 'assets/images/',
+    emoji: 'assets/images/kids-homework.webp',
     sound: 'sounds/two_syllable/.mp3',
   ),
   WordItem(
@@ -816,7 +816,7 @@ final List<WordItem> twoSyllableWords = [
   ),
   WordItem(
     word: 'مرطوب',
-    emoji: "assets/images/icons8--100.png",
+    emoji: "assets/images/wet.jpg",
     sound: "sounds/two_syllable/.mp3",
   ),
   WordItem(
