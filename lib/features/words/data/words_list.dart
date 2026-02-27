@@ -831,17 +831,17 @@ final List<WordItem> twoSyllableWords = [
   ),
   WordItem(
     word: 'نازک',
-    emoji: "assets/images/icons8--100.png",
+    emoji: "assets/images/tin.jpg",
     sound: "sounds/two_syllable/.mp3",
   ),
   WordItem(
     word: 'واضح',
-    emoji: "assets/images/icons8--100.png",
+    emoji: "assets/images/clear.jpg",
     sound: "sounds/two_syllable/.mp3",
   ),
   WordItem(
     word: 'واکسین',
-    emoji: "assets/images/icons8--100.png",
+    emoji: "assets/images/vaccinate.webp",
     sound: "sounds/two_syllable/.mp3",
   ),
   WordItem(
@@ -1165,42 +1165,170 @@ final List<WordItem> threeSyllableWords = [
 ];
 
 final List<WordItem> fourSyllableWords = [
-  WordItem(word: "کتابخانه", emoji: '', sound: 'sounds/four_syllable/.mp3'),
-  WordItem(word: "دانشگاه", emoji: '', sound: 'sounds/four_syllable/.mp3'),
-  WordItem(word: "مهربانی", emoji: '', sound: 'sounds/four_syllable/.mp3'),
-  WordItem(word: "آموزگار", emoji: '', sound: 'sounds/four_syllable/.mp3'),
-  WordItem(word: 'آب و هوا', emoji: '', sound: 'sounds/four_syllable/.mp3'),
-  WordItem(word: 'آشپزخانه', emoji: '', sound: 'sounds/four_syllable/.mp3'),
-  WordItem(word: 'آغازکردن', emoji: '', sound: 'sounds/four_syllable/.mp3'),
-  WordItem(word: 'آشیانه', emoji: '', sound: 'sounds/four_syllable/.mp3'),
-  WordItem(word: 'آفتاب نشست', emoji: '', sound: 'sounds/four_syllable/.mp3'),
-  WordItem(word: 'آلوبالو', emoji: '', sound: 'sounds/four_syllable/.mp3'),
-  WordItem(word: 'آیسکریم', emoji: '', sound: 'sounds/four_syllable/.mp3'),
-  WordItem(word: 'احساس کردن', emoji: '', sound: 'sounds/four_syllable/.mp3'),
-  WordItem(word: 'اخراج کردن', emoji: '', sound: 'sounds/four_syllable/.mp3'),
-  WordItem(word: 'استفاده', emoji: '', sound: 'sounds/four_syllable/.mp3'),
-  WordItem(word: 'اطفاییه', emoji: '', sound: 'sounds/four_syllable/.mp3'),
-  WordItem(word: 'اطلاعنامه', emoji: '', sound: 'sounds/four_syllable/.mp3'),
-  WordItem(word: 'اعمار کردن', emoji: '', sound: 'sounds/four_syllable/.mp3'),
-  WordItem(word: 'افشا کردن', emoji: '', sound: 'sounds/four_syllable/.mp3'),
-  WordItem(word: 'افطار کردن', emoji: '', sound: 'sounds/four_syllable/.mp3'),
-  WordItem(word: 'افغانستان', emoji: '', sound: 'sounds/four_syllable/.mp3'),
-  WordItem(word: 'انجام دادن', emoji: '', sound: 'sounds/four_syllable/.mp3'),
-  WordItem(word: 'بالا شدن', emoji: '', sound: 'sounds/four_syllable/.mp3'),
-  WordItem(word: 'با همدیگر', emoji: '', sound: 'sounds/four_syllable/.mp3'),
-  WordItem(word: 'ببخشید', emoji: '', sound: 'sounds/four_syllable/.mp3'),
-  WordItem(word: 'برس رنگمالی', emoji: '', sound: 'sounds/four_syllable/.mp3'),
-  WordItem(word: 'بکس کالا', emoji: '', sound: 'sounds/four_syllable/.mp3'),
-  WordItem(word: 'پاره کردن', emoji: '', sound: 'sounds/four_syllable/.mp3'),
-  WordItem(word: 'پدر کلان', emoji: '', sound: 'sounds/four_syllable/.mp3'),
-  WordItem(word: 'پنسل تراش', emoji: '', sound: 'sounds/four_syllable/.mp3'),
-  WordItem(word: 'تبدیل کردن', emoji: '', sound: 'sounds/four_syllable/.mp3'),
+  WordItem(
+    word: "کتابخانه",
+    emoji: 'assets/images/library.jpg',
+    sound: 'sounds/four_syllable/.mp3',
+  ),
+  WordItem(
+    word: "دانشگاه",
+    emoji: 'assets/images/univercity.jpg',
+    sound: 'sounds/four_syllable/.mp3',
+  ),
+  WordItem(
+    word: "مهربانی",
+    emoji: 'assets/images/kind.jpg',
+    sound: 'sounds/four_syllable/.mp3',
+  ),
+  WordItem(
+    word: "آموزگار",
+    emoji: 'assets/images/teacher.webp',
+    sound: 'sounds/four_syllable/.mp3',
+  ),
+  WordItem(
+    word: 'آب و هوا',
+    emoji: 'assets/images/weather.jpeg',
+    sound: 'sounds/four_syllable/.mp3',
+  ),
+  WordItem(
+    word: 'آشپزخانه',
+    emoji: 'assets/images/kitchen.webp',
+    sound: 'sounds/four_syllable/.mp3',
+  ),
+  WordItem(
+    word: 'آغازکردن',
+    emoji: 'assets/images/start.jpg',
+    sound: 'sounds/four_syllable/.mp3',
+  ),
+  WordItem(
+    word: 'آشیانه',
+    emoji: 'assets/images/nest.jpg',
+    sound: 'sounds/four_syllable/.mp3',
+  ),
+  WordItem(
+    word: 'آفتاب نشست',
+    emoji: 'assets/images/sunset.jpg',
+    sound: 'sounds/four_syllable/.mp3',
+  ),
+  WordItem(
+    word: 'آلوبالو',
+    emoji: 'assets/images/cherry.jpg',
+    sound: 'sounds/four_syllable/.mp3',
+  ),
+  WordItem(
+    word: 'آیسکریم',
+    emoji: 'assets/images/icecream.jpg',
+    sound: 'sounds/four_syllable/.mp3',
+  ),
+  WordItem(
+    word: 'احساس کردن',
+    emoji: 'assets/images/feel.jpg',
+    sound: 'sounds/four_syllable/.mp3',
+  ),
+  WordItem(
+    word: 'اخراج کردن',
+    emoji: 'assets/images/out.webp',
+    sound: 'sounds/four_syllable/.mp3',
+  ),
+  WordItem(
+    word: 'استفاده',
+    emoji: 'assets/images/.jpg',
+    sound: 'sounds/four_syllable/.mp3',
+  ),
+  WordItem(
+    word: 'اطفاییه',
+    emoji: 'assets/images/fire.jpg',
+    sound: 'sounds/four_syllable/.mp3',
+  ),
+  WordItem(
+    word: 'اطلاعنامه',
+    emoji: 'assets/images/result.webp',
+    sound: 'sounds/four_syllable/.mp3',
+  ),
+  WordItem(
+    word: 'اعمار کردن',
+    emoji: 'assets/images/work.jpg',
+    sound: 'sounds/four_syllable/.mp3',
+  ),
+  WordItem(
+    word: 'افشا کردن',
+    emoji: 'assets/images/denounce.jpg',
+    sound: 'sounds/four_syllable/.mp3',
+  ),
+  WordItem(
+    word: 'افطار کردن',
+    emoji: 'assets/images/ramadan.jpg',
+    sound: 'sounds/four_syllable/.mp3',
+  ),
+  WordItem(
+    word: 'افغانستان',
+    emoji: 'assets/images/Afghanistan.png',
+    sound: 'sounds/four_syllable/.mp3',
+  ),
+  WordItem(
+    word: 'انجام دادن',
+    emoji: 'assets/images/done.jpg',
+    sound: 'sounds/four_syllable/.mp3',
+  ),
+  WordItem(
+    word: 'بالا شدن',
+    emoji: 'assets/images/Steps.png',
+    sound: 'sounds/four_syllable/.mp3',
+  ),
+  WordItem(
+    word: 'با همدیگر',
+    emoji: 'assets/images/kind.jpg',
+    sound: 'sounds/four_syllable/.mp3',
+  ),
+  WordItem(
+    word: 'ببخشید',
+    emoji: 'assets/images/sorry.png',
+    sound: 'sounds/four_syllable/.mp3',
+  ),
+  WordItem(
+    word: 'برس رنگمالی',
+    emoji: 'assets/images/Paint-Brush.jpg',
+    sound: 'sounds/four_syllable/.mp3',
+  ),
+  WordItem(
+    word: 'بکس کالا',
+    emoji: 'assets/images/.jpg',
+    sound: 'sounds/four_syllable/.mp3',
+  ),
+  WordItem(
+    word: 'پاره کردن',
+    emoji: 'assets/images/ripping.jpg',
+    sound: 'sounds/four_syllable/.mp3',
+  ),
+  WordItem(
+    word: 'پدر کلان',
+    emoji: 'assets/images/grand-father.jpg',
+    sound: 'sounds/four_syllable/.mp3',
+  ),
+  WordItem(
+    word: 'پنسل تراش',
+    emoji: 'assets/images/pincel-.jpg',
+    sound: 'sounds/four_syllable/.mp3',
+  ),
+  WordItem(
+    word: 'تبدیل کردن',
+    emoji: 'assets/images/.jpg',
+    sound: 'sounds/four_syllable/.mp3',
+  ),
 ];
 
 final List<WordItem> fiveSyllableWords = [
-  WordItem(word: 'انتظار کشیدن', emoji: '', sound: ''),
-  WordItem(word: 'انتخاب کردن', emoji: '', sound: ''),
-  WordItem(word: 'انتقال دادن', emoji: '', sound: ''),
-  WordItem(word: 'اندازه کردن', emoji: '', sound: ''),
-  WordItem(word: 'انکار کردن', emoji: '', sound: ''),
+  WordItem(word: 'انتظار کشیدن', emoji: 'assets/images/waiting.jpg', sound: ''),
+  WordItem(word: 'انتخاب کردن', emoji: 'assets/images/choice.jpg', sound: ''),
+  WordItem(
+    word: 'انتقال دادن',
+    emoji: 'assets/images/transfer.webp',
+    sound: '',
+  ),
+  WordItem(
+    word: 'اندازه کردن',
+    emoji: 'assets/images/measuring.jpg',
+    sound: '',
+  ),
+  WordItem(word: 'انکار کردن', emoji: 'assets/images/deny.jpg', sound: ''),
 ];
