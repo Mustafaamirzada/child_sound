@@ -10,7 +10,7 @@ class WordListScreen extends StatefulWidget {
   final List<WordItem> words;
   final List<Color> gradientColors;
 
-  WordListScreen({
+  const WordListScreen({
     super.key,
     required this.title,
     required this.words,

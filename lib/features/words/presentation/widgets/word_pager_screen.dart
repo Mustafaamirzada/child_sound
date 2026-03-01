@@ -6,13 +6,11 @@ import 'package:flutter/material.dart';
 class WordPagerScreen extends StatefulWidget {
   final List<WordItem> words;
   final int initialIndex;
-  // final int lockedIndex;
 
   const WordPagerScreen({
     super.key,
     required this.words,
     required this.initialIndex,
-    // required this.lockedIndex,
   });
 
   @override
@@ -55,12 +53,11 @@ class _WordPagerScreenState extends State<WordPagerScreen> {
       backgroundColor: const Color(0xFFFFF9E6),
       appBar: AppBar(
         backgroundColor: Colors.pink,
-        title: const Text("یادگیری حرف"),
+        title: const Text("یادگیری کلمه"),
       ),
       body: PageView.builder(
         controller: _pageController,
         itemCount: widget.words.length,
-        // itemCount: 1,
         onPageChanged: (index) async {
           await playSwipeSound();
           playCount = 0;

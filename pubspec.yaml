@@ -44,6 +44,7 @@ dependencies:
   intl: ^0.20.2
   lottie: ^3.3.2
   pretty_animated_buttons: ^0.0.2
+  fl_chart: ^1.1.1
 
 dev_dependencies:
   flutter_test:
