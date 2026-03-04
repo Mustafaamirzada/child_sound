@@ -1,3 +1,4 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class ParentDashboardScreen extends StatelessWidget {
@@ -15,6 +16,10 @@ class ParentDashboardScreen extends StatelessWidget {
             ProfileCard(),
             SizedBox(height: 16),
             ProgressCard(),
+            SizedBox(height: 16),
+            WeeklyBarChartCard(),
+            SizedBox(height: 16),
+            StreakCard(),
             SizedBox(height: 16),
             WordProgressCard(),
             SizedBox(height: 16),
@@ -59,35 +64,167 @@ class ProfileCard extends StatelessWidget {
   }
 }
 
+// progress bar card
 class ProgressCard extends StatelessWidget {
   const ProgressCard({super.key});
 
   @override
   Widget build(BuildContext context) {
-    double progress = 0.6; // Example
+    double progress = 0.75; // Example: 75%
 
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(20),
+      decoration: _cardDecoration(),
+      child: Column(
+        children: [
+          const Text(
+            "Alphabet Progress",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+
+          const SizedBox(height: 20),
+
+          TweenAnimationBuilder(
+            tween: Tween<double>(begin: 0, end: progress),
+            duration: const Duration(seconds: 2),
+            builder: (context, value, _) {
+              return Stack(
+                alignment: Alignment.center,
+                children: [
+                  SizedBox(
+                    height: 140,
+                    width: 140,
+                    child: CircularProgressIndicator(
+                      value: value,
+                      strokeWidth: 12,
+                      backgroundColor: Colors.grey.shade200,
+                    ),
+                  ),
+
+                  Text(
+                    "${(value * 100).toInt()}%",
+                    style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
+
+          const SizedBox(height: 10),
+          const Text("24 / 32 Letters Completed"),
+        ],
+      ),
+    );
+  }
+}
+
+// weakly barchart
+class WeeklyBarChartCard extends StatelessWidget {
+  const WeeklyBarChartCard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(20),
       decoration: _cardDecoration(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            "Alphabet Progress",
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            "Weekly Activity",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
 
-          const SizedBox(height: 12),
+          const SizedBox(height: 20),
 
-          LinearProgressIndicator(
-            value: progress,
-            minHeight: 8,
-            borderRadius: BorderRadius.circular(10),
+          SizedBox(
+            height: 200,
+            child: BarChart(
+              BarChartData(
+                borderData: FlBorderData(show: false),
+                gridData: FlGridData(show: false),
+                titlesData: FlTitlesData(show: false),
+                barGroups: [
+                  _bar(0, 3),
+                  _bar(1, 5),
+                  _bar(2, 2),
+                  _bar(3, 6),
+                  _bar(4, 4),
+                  _bar(5, 7),
+                  _bar(6, 1),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  BarChartGroupData _bar(int x, double y) {
+    return BarChartGroupData(
+      x: x,
+      barRods: [
+        BarChartRodData(
+          toY: y,
+          width: 16,
+          borderRadius: BorderRadius.circular(6),
+          color: Colors.blue,
+        ),
+      ],
+    );
+  }
+}
+
+// streak card
+class StreakCard extends StatelessWidget {
+  const StreakCard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    int streakDays = 5; // Example
+
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: _cardDecoration(),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Colors.orange.withOpacity(0.2),
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(
+              Icons.local_fire_department,
+              color: Colors.orange,
+              size: 30,
+            ),
           ),
 
-          const SizedBox(height: 8),
+          const SizedBox(width: 20),
 
-          const Text("18 / 30 Letters Completed"),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                "Learning Streak",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 5),
+              Text(
+                "$streakDays Days 🔥",
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.orange,
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );

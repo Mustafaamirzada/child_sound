@@ -71,7 +71,7 @@ class _WordListScreenState extends State<WordListScreen> {
                     return WordPagerScreen(
                       words: widget.words,
                       initialIndex: index,
-                      // lockedIndex: index,
+                      completed: completedLetters.length,
                     );
                   },
                   transitionsBuilder: (_, animation, __, child) {
@@ -90,6 +90,7 @@ class _WordListScreenState extends State<WordListScreen> {
                 setState(() {
                   completedLetters.add(index);
                 });
+                print(completedLetters.length);
                 await _saveCompleted();
               }
             },

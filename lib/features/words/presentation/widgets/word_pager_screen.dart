@@ -6,11 +6,13 @@ import 'package:flutter/material.dart';
 class WordPagerScreen extends StatefulWidget {
   final List<WordItem> words;
   final int initialIndex;
+  final int completed;
 
   const WordPagerScreen({
     super.key,
     required this.words,
     required this.initialIndex,
+    required this.completed,
   });
 
   @override
@@ -80,8 +82,9 @@ class _WordPagerScreenState extends State<WordPagerScreen> {
                         child: Column(
                           children: [
                             LinearProgressIndicator(
-                              value: (index + 1) / widget.words.length,
-                              minHeight: 10,
+                              value:
+                                  (widget.completed + 1) / widget.words.length,
+                              minHeight: 20,
                               borderRadius: BorderRadius.circular(20),
                               backgroundColor: Colors.grey.shade300,
                               valueColor: AlwaysStoppedAnimation(
