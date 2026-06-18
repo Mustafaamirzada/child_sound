@@ -45,6 +45,7 @@ dependencies:
   lottie: ^3.3.2
   pretty_animated_buttons: ^0.0.2
   fl_chart: ^1.1.1
+  flutter_launcher_icons: ^0.14.4
 
 dev_dependencies:
   flutter_test:
@@ -71,6 +72,16 @@ flutter:
     - assets/sounds/four_syllable/
     - assets/animations/
     - assets/images/
+
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/logo.png"
+  windows:
+    generate: true
+    image_path: "assets/logo.png"
+    icon_size: 48
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
