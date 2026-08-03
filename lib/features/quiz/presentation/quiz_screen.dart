@@ -1,4 +1,6 @@
+import 'package:child_sound/features/quiz/model/quiz_question.dart';
 import 'package:child_sound/features/quiz/presentation/quiz_game_screen.dart';
+import 'package:child_sound/shared/widgets/app_icons.dart';
 import 'package:flutter/material.dart';
 
 class QuizScreen extends StatelessWidget {
@@ -29,7 +31,7 @@ class QuizScreen extends StatelessWidget {
               title: "امتحان حروف",
               subtitle: "حرف اول تصویر را پیدا کن",
               color: Colors.deepPurple,
-              isLetter: true,
+              quizType: QuizType.letterToWord,
             ),
             const SizedBox(height: 20),
             _buildQuizCard(
@@ -38,7 +40,16 @@ class QuizScreen extends StatelessWidget {
               title: "امتحان تصاویر",
               subtitle: "کلمه درست را برای تصویر انتخاب کن",
               color: Colors.teal,
-              isLetter: false,
+              quizType: QuizType.imageToWord,
+            ),
+            const SizedBox(height: 20),
+            _buildQuizCard(
+              context,
+              icon: Icons.volume_up,
+              title: "امتحان صوتی",
+              subtitle: "صدا را گوش کن و کلمه درست را پیدا کن",
+              color: Colors.orange,
+              quizType: QuizType.audioToWord,
             ),
           ],
         ),
@@ -52,13 +63,13 @@ class QuizScreen extends StatelessWidget {
     required String title,
     required String subtitle,
     required Color color,
-    required bool isLetter,
+    required QuizType quizType,
   }) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (_) => QuizGameScreen(isLetterQuiz: isLetter)),
+          MaterialPageRoute(builder: (_) => QuizGameScreen(quizType: quizType)),
         );
       },
       child: Container(
@@ -90,9 +101,7 @@ class QuizScreen extends StatelessWidget {
               ),
             ),
             Icon(
-              Directionality.of(context) == TextDirection.rtl
-                  ? Icons.arrow_back_ios_new
-                  : Icons.arrow_forward_ios,
+              AppIcons.forward(context),
               color: Colors.white.withOpacity(0.7),
               size: 20,
             ),
