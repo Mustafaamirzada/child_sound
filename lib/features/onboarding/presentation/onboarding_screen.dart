@@ -1,5 +1,6 @@
 import 'package:child_sound/features/onboarding/model/onboarding.dart';
 import 'package:child_sound/main.dart';
+import 'package:child_sound/shared/widgets/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pretty_animated_buttons/pretty_animated_buttons.dart';
@@ -120,7 +121,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 40),
       child: PrettySlideIconButton(
         foregroundColor: Colors.teal,
-        icon: Icons.arrow_back,
+        icon: AppIcons.forwardArrow(context),
         onPressed: () async {
           if (currentIndex == pages.length - 1) {
             await _markOnboardingDone();
