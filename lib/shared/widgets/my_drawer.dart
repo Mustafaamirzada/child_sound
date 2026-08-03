@@ -1,3 +1,4 @@
+import 'package:child_sound/features/profile/presentation/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -10,191 +11,154 @@ class AppDrawer extends StatefulWidget {
 
 class _AppDrawerState extends State<AppDrawer> {
   String userName = '';
-  String userImage = "assets/userImage.png";
+  String userAvatar = "🧒";
 
   @override
   void initState() {
-    _loadUserName();
+    _loadUser();
     super.initState();
   }
 
-  Future<void> _loadUserName() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final savedName = prefs.getString("userName");
-
-    if (savedName != null) {
-      setState(() {
-        userName = savedName;
-      });
-    }
+  Future<void> _loadUser() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userName = prefs.getString("userName") ?? "";
+      userAvatar = prefs.getString("userAvatar") ?? "🧒";
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Drawer(
       backgroundColor: Colors.white,
-      // elevation: 8,
       child: Column(
         children: [
-          // 🔷 HEADER
-          _buildHeader(),
-
-          // 🔹 MENU ITEMS
+          _buildHeader(context),
           Expanded(
             child: ListView(
               padding: EdgeInsets.zero,
               children: [
                 _drawerItem(
-                  context,
+                  icon: Icons.person,
+                  title: "پروفایل",
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.push(context, MaterialPageRoute(builder: (_) => const ProfileScreen()));
+                  },
+                ),
+                _drawerItem(
                   icon: Icons.privacy_tip_outlined,
-                  title: "Privacy Policy",
-                  onTap: () {},
+                  title: "حریم خصوصی",
+                  onTap: () => _showInfoDialog(
+                    context,
+                    title: "حریم خصوصی",
+                    message: "همه اطلاعات شما (پیشرفت، نام و تنظیمات) فقط روی همین دستگاه ذخیره می‌شود و هیچ‌جا ارسال نمی‌شود.",
+                  ),
                 ),
-
                 _drawerItem(
-                  context,
                   icon: Icons.help_outline,
-                  title: "Help",
-                  onTap: () {},
+                  title: "راهنما",
+                  onTap: () => _showInfoDialog(
+                    context,
+                    title: "راهنما",
+                    message: "برای یادگیری، روی هر حرف یا کلمه بزنید. با سه بار پخش صدا، آن مورد کامل می‌شود و از دستاوردها به شما جایزه می‌دهیم.",
+                  ),
                 ),
-
                 _drawerItem(
-                  context,
-                  icon: Icons.description_outlined,
-                  title: "Terms & Conditions",
-                  onTap: () {},
-                ),
-
-                _drawerItem(
-                  context,
                   icon: Icons.info_outline,
-                  title: "About Us",
-                  onTap: () {},
+                  title: "درباره ما",
+                  onTap: () => _showInfoDialog(
+                    context,
+                    title: "درباره ما",
+                    message: "Child Sound — برنامه آموزش الفبا و کلمات دری به کودکان.\nنسخه ۱.۰.۰",
+                  ),
                 ),
               ],
             ),
           ),
-
-          // 🔻 Footer
           Padding(
             padding: const EdgeInsets.all(16),
-            child: Text(
-              "Version 1.0.0",
-              style: TextStyle(color: Colors.grey.shade600),
-            ),
+            child: Text("نسخه ۱.۰.۰", style: TextStyle(color: Colors.grey.shade600)),
           ),
         ],
       ),
     );
   }
 
-  void _editProfile() {
-    TextEditingController controller = TextEditingController(text: userName);
-
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text('Edit Name'),
-          content: TextField(
-            controller: controller,
-            decoration: InputDecoration(hintText: 'Enter Your Name'),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text('Cancel'),
-            ),
-
-            ElevatedButton(
-              onPressed: () async {
-                final prefs = await SharedPreferences.getInstance();
-                prefs.setString("userName", controller.text);
-
-                setState(() {
-                  userImage = controller.text;
-                });
-                Navigator.pop(context);
-              },
-              child: Text('Save'),
-            ),
-          ],
-        );
+  Widget _buildHeader(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.pop(context);
+        Navigator.push(context, MaterialPageRoute(builder: (_) => const ProfileScreen()));
       },
-    );
-  }
-
-  Widget _buildHeader() {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(vertical: 40),
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Color(0xFF4A90E2), Color(0xFF357ABD)],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(vertical: 40),
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.deepPurple, Colors.purpleAccent],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        child: Column(
+          children: [
+            CircleAvatar(
+              radius: 42,
+              backgroundColor: Colors.white,
+              child: Text(userAvatar, style: const TextStyle(fontSize: 40)),
+            ),
+            const SizedBox(height: 12),
+            Text(
+              userName.isNotEmpty ? userName : "مصطفی",
+              style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 4),
+            const Text("مشاهده پروفایل", style: TextStyle(color: Colors.white70, fontSize: 12)),
+          ],
         ),
       ),
-      child: Column(
-        children: [
-          // 🖼 App Logo / Image
-          GestureDetector(
-            onTap: _editProfile,
-            child: CircleAvatar(
-              radius: 45,
-              backgroundColor: Colors.white,
-              backgroundImage: AssetImage("assets/userImage.png"),
-            ),
-          ),
+    );
+  }
 
-          const SizedBox(height: 15),
-
-          // 👤 user Name
-          GestureDetector(
-            onTap: _editProfile,
-            child: const Text(
-              "Hi! ✋ Mustafa",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-
-          const SizedBox(height: 5),
-
-          const Text(
-            'Tap to edit profile',
-            style: TextStyle(color: Colors.white, fontSize: 12),
-          ),
-
-          const SizedBox(height: 25),
-
-          const Text(
-            "Learn Alphabets & Words",
-            style: TextStyle(color: Colors.white70),
+  Future<void> _showInfoDialog(
+    BuildContext context, {
+    required String title,
+    required String message,
+  }) {
+    Navigator.pop(context);
+    return showDialog<void>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: Text(title),
+        content: Text(message, textAlign: TextAlign.center),
+        actions: [
+          ElevatedButton(
+            onPressed: () => Navigator.pop(ctx),
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple, foregroundColor: Colors.white),
+            child: const Text("باشه"),
           ),
         ],
       ),
     );
   }
 
-  Widget _drawerItem(
-    BuildContext context, {
+  Widget _drawerItem({
     required IconData icon,
     required String title,
     required VoidCallback onTap,
   }) {
     return ListTile(
-      leading: Icon(icon, color: Colors.blue.shade700),
-      title: Text(
-        title,
-        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+      leading: Icon(icon, color: Colors.deepPurple.shade300),
+      title: Text(title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+      trailing: Icon(
+        Directionality.of(context) == TextDirection.rtl
+            ? Icons.arrow_back_ios_new
+            : Icons.arrow_forward_ios,
+        size: 16,
+        color: Colors.grey,
       ),
-      trailing: const Icon(Icons.arrow_forward_ios, size: 16),
       onTap: onTap,
     );
   }
