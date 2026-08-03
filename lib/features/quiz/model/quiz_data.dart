@@ -33,6 +33,23 @@ List<QuizQuestion> _allLetterQuestions() {
   }).toList();
 }
 
+List<QuizQuestion> _allAudioQuestions() {
+  final pool = oneSyllableWords.where((w) => w.sound.isNotEmpty).toList();
+  if (pool.isEmpty) return [];
+  final selected = (pool..shuffle()).take(10).toList();
+  return selected.map((w) {
+    final wrongs = (pool..shuffle()).where((x) => x.word != w.word).take(3).map((x) => x.word).toList();
+    final options = [w.word, ...wrongs]..shuffle();
+    return QuizQuestion(
+      question: "این صدا مال کدام کلمه است؟",
+      options: options,
+      correctIndex: options.indexOf(w.word),
+      type: QuizType.audioToWord,
+      soundAsset: w.sound,
+    );
+  }).toList();
+}
+
 List<QuizQuestion> generateLetterQuiz() {
   final qs = _allLetterQuestions();
   return _pickRandom(qs, 8);
@@ -41,6 +58,11 @@ List<QuizQuestion> generateLetterQuiz() {
 List<QuizQuestion> generateWordQuiz() {
   final qs = _allWordQuestions();
   return _pickRandom(qs, 10);
+}
+
+List<QuizQuestion> generateAudioQuiz() {
+  final qs = _allAudioQuestions();
+  return _pickRandom(qs, 8);
 }
 
 List<QuizQuestion> _pickRandom(List<QuizQuestion> items, int count) {
