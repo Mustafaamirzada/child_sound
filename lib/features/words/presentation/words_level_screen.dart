@@ -1,3 +1,4 @@
+import 'package:child_sound/features/writing/presentation/writing_screen.dart';
 import 'package:child_sound/features/words/presentation/five_syllable.dart';
 import 'package:child_sound/features/words/presentation/four_syllable.dart';
 import 'package:child_sound/features/words/presentation/single_syllable.dart';
@@ -29,7 +30,13 @@ class WordLevelsScreen extends StatelessWidget {
             children: [
               AspectRatio(
                 aspectRatio: 1.2,
-                child: Image.asset('assets/webInterFace.png'),
+                child: Image.asset(
+                  'assets/webInterFace.png',
+                  errorBuilder: (_, __, ___) => Container(
+                    color: const Color(0xFFF0F4FF),
+                    child: const Center(child: Text("🎓", style: TextStyle(fontSize: 80))),
+                  ),
+                ),
               ),
             ],
           ),
@@ -76,7 +83,7 @@ class WordLevelsScreen extends StatelessWidget {
                   ),
                   _buildLevelCard(
                     context,
-                    "کلمات چهار و پنج هجایی",
+                    "کلمات چهار هجایی",
                     Colors.purple,
                     const FourSyllableScreen(),
                   ),
@@ -85,6 +92,12 @@ class WordLevelsScreen extends StatelessWidget {
                     "کلمات پنج هجایی",
                     Colors.deepOrangeAccent,
                     const FiveSyllableScreen(),
+                  ),
+                  _buildLevelCard(
+                    context,
+                    "✍️ تمرین نوشتن",
+                    Colors.teal,
+                    const WritingScreen(),
                   ),
                 ],
               ),
