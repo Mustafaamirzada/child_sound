@@ -1,13 +1,15 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:child_sound/features/achievements/model/achievement_service.dart';
 import 'package:child_sound/features/quiz/model/quiz_data.dart';
 import 'package:child_sound/features/quiz/model/quiz_question.dart';
 import 'package:child_sound/features/quiz/presentation/quiz_result_screen.dart';
 import 'package:child_sound/core/services/stats_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
 class QuizGameScreen extends StatefulWidget {
-  final bool isLetterQuiz;
-  const QuizGameScreen({super.key, required this.isLetterQuiz});
+  final QuizType quizType;
+  const QuizGameScreen({super.key, this.quizType = QuizType.imageToWord});
 
   @override
   State<QuizGameScreen> createState() => _QuizGameScreenState();
@@ -19,11 +21,47 @@ class _QuizGameScreenState extends State<QuizGameScreen> {
   int? _selectedIndex;
   int _correctCount = 0;
   bool _isAnswered = false;
+  final AudioPlayer _player = AudioPlayer();
+  final FlutterTts _tts = FlutterTts();
 
   @override
   void initState() {
     super.initState();
-    _questions = widget.isLetterQuiz ? generateLetterQuiz() : generateWordQuiz();
+    _questions = switch (widget.quizType) {
+      QuizType.letterToWord => generateLetterQuiz(),
+      QuizType.audioToWord => generateAudioQuiz(),
+      QuizType.imageToWord => generateWordQuiz(),
+    };
+    if (_questions.isNotEmpty && _questions.first.type == QuizType.audioToWord) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => _playPrompt(_questions.first));
+    }
+  }
+
+  @override
+  void dispose() {
+    _player.dispose();
+    _tts.stop();
+    super.dispose();
+  }
+
+  String get _title => switch (widget.quizType) {
+    QuizType.letterToWord => "امتحان حروف",
+    QuizType.imageToWord => "امتحان تصاویر",
+    QuizType.audioToWord => "امتحان صوتی",
+  };
+
+  Future<void> _playPrompt(QuizQuestion q) async {
+    if (q.soundAsset != null && q.soundAsset!.isNotEmpty) {
+      try {
+        await _player.play(AssetSource(q.soundAsset!));
+        return;
+      } catch (_) {
+        // fall through to TTS
+      }
+    }
+    await _tts.setLanguage("fa");
+    await _tts.setSpeechRate(0.5);
+    await _tts.speak(q.options[q.correctIndex]);
   }
 
   void _answer(int index) {
@@ -44,6 +82,9 @@ class _QuizGameScreenState extends State<QuizGameScreen> {
         _selectedIndex = null;
         _isAnswered = false;
       });
+      if (_questions[_currentIndex].type == QuizType.audioToWord) {
+        WidgetsBinding.instance.addPostFrameCallback((_) => _playPrompt(_questions[_currentIndex]));
+      }
     } else {
       _finish();
     }
@@ -56,10 +97,20 @@ class _QuizGameScreenState extends State<QuizGameScreen> {
     }
     await AchievementService.checkAndUnlock("quiz_champion");
     if (!mounted) return;
+    final resolvedQuizType = widget.quizType;
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (_) => QuizResultScreen(correct: _correctCount, total: _questions.length),
+        builder: (_) => QuizResultScreen(
+          correct: _correctCount,
+          total: _questions.length,
+          onRetry: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (_) => QuizGameScreen(quizType: resolvedQuizType)),
+            );
+          },
+        ),
       ),
     );
   }
@@ -71,7 +122,7 @@ class _QuizGameScreenState extends State<QuizGameScreen> {
       backgroundColor: const Color(0xFFFFF9E6),
       appBar: AppBar(
         backgroundColor: Colors.deepPurple,
-        title: Text("امتحان ${widget.isLetterQuiz ? "حروف" : "تصاویر"}"),
+        title: Text(_title),
         centerTitle: true,
       ),
       body: Column(
@@ -94,7 +145,30 @@ class _QuizGameScreenState extends State<QuizGameScreen> {
             ),
           ),
           const SizedBox(height: 20),
-          if (q.promptEmoji != null && q.promptEmoji!.isNotEmpty)
+          if (q.type == QuizType.audioToWord)
+            Expanded(
+              flex: 2,
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text("🔊", style: TextStyle(fontSize: 90)),
+                    const SizedBox(height: 16),
+                    ElevatedButton.icon(
+                      onPressed: () => _playPrompt(q),
+                      icon: const Icon(Icons.volume_up),
+                      label: const Text("پخش دوباره صدا"),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.teal,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            )
+          else if (q.promptEmoji != null && q.promptEmoji!.isNotEmpty)
             Expanded(
               flex: 2,
               child: Center(
