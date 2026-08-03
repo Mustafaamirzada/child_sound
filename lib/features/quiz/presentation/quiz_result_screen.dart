@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 class QuizResultScreen extends StatelessWidget {
   final int correct;
   final int total;
-  const QuizResultScreen({super.key, required this.correct, required this.total});
+  final VoidCallback? onRetry;
+  const QuizResultScreen({super.key, required this.correct, required this.total, this.onRetry});
 
   @override
   Widget build(BuildContext context) {
@@ -62,19 +63,41 @@ class QuizResultScreen extends StatelessWidget {
                 },
               ),
               const SizedBox(height: 40),
-              SizedBox(
-                width: double.infinity,
-                height: 52,
-                child: ElevatedButton.icon(
-                  onPressed: () => Navigator.pop(context),
-                  icon: const Icon(Icons.home),
-                  label: const Text("بازگشت", style: TextStyle(fontSize: 18)),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.deepPurple,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+              Row(
+                children: [
+                  if (onRetry != null)
+                    Expanded(
+                      child: SizedBox(
+                        height: 52,
+                        child: ElevatedButton.icon(
+                          onPressed: onRetry,
+                          icon: const Icon(Icons.replay),
+                          label: const Text("دوباره", style: TextStyle(fontSize: 18)),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.teal,
+                            foregroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                          ),
+                        ),
+                      ),
+                    ),
+                  if (onRetry != null) const SizedBox(width: 12),
+                  Expanded(
+                    child: SizedBox(
+                      height: 52,
+                      child: ElevatedButton.icon(
+                        onPressed: () => Navigator.pop(context),
+                        icon: const Icon(Icons.home),
+                        label: const Text("بازگشت", style: TextStyle(fontSize: 18)),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.deepPurple,
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                        ),
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
             ],
           ),
