@@ -7,6 +7,7 @@ class QuizQuestion {
   final QuizType type;
   final String? imageAsset;
   final String? promptEmoji;
+  final String? soundAsset;
 
   const QuizQuestion({
     required this.question,
@@ -15,5 +16,6 @@ class QuizQuestion {
     required this.type,
     this.imageAsset,
     this.promptEmoji,
+    this.soundAsset,
   });
 }
