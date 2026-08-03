@@ -1,8 +1,8 @@
+import 'package:child_sound/core/services/storage_keys.dart';
 import 'package:child_sound/features/alphabets/data/alphabets_list.dart';
 import 'package:child_sound/features/alphabets/presentation/letter_pager_screen.dart';
 import 'package:child_sound/shared/widgets/my_drawer.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_tts/flutter_tts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 
@@ -14,15 +14,11 @@ class AlphabetScreen extends StatefulWidget {
 }
 
 class _AlphabetScreenState extends State<AlphabetScreen> {
-  final FlutterTts flutterTts = FlutterTts();
-
   Set<int> completedLetters = {};
   Future<void> _loadCompleted() async {
     final prefs = await SharedPreferences.getInstance();
-    final storageKey = "completed_${widget.key}";
-    final List<String>? saved = prefs.getStringList(
-      storageKey,
-    ); // unique key per screen
+    const storageKey = StorageKeys.completedAlphabets;
+    final List<String>? saved = prefs.getStringList(storageKey);
 
     if (saved != null) {
       setState(() {
@@ -33,7 +29,7 @@ class _AlphabetScreenState extends State<AlphabetScreen> {
 
   Future<void> _saveCompleted() async {
     final prefs = await SharedPreferences.getInstance();
-    final storageKey = "completed_${widget.key}";
+    const storageKey = StorageKeys.completedAlphabets;
     await prefs.setStringList(
       storageKey,
       completedLetters.map((e) => e.toString()).toList(),
@@ -71,11 +67,6 @@ class _AlphabetScreenState extends State<AlphabetScreen> {
   void initState() {
     super.initState();
     _loadCompleted();
-    flutterTts.setSpeechRate(0.5);
-  }
-
-  void speak(String text) async {
-    await flutterTts.speak(text);
   }
 
   @override
@@ -107,77 +98,59 @@ class _AlphabetScreenState extends State<AlphabetScreen> {
               onTap: () async {
                 bool allowed = await canOpenLetter(index);
                 if (!allowed) {
-                  // AlertDialog(
-                  //   title: Text('Dialog Title'),
-                  //   content: SingleChildScrollView(
-                  //     child: ListBody(
-                  //       children: <Widget>[
-                  //         Text("امروز فقط یک حرف می‌توانی یاد بگیری 😊"),
-                  //         Text('You cannot interact with the background.'),
-                  //       ],
-                  //     ),
-                  //   ),
-                  //   actions: <Widget>[
-                  //     TextButton(
-                  //       child: Text('Approve'),
-                  //       onPressed: () {
-                  //         Navigator.of(context).pop(); // Dismiss the dialog
-                  //       },
-                  //     ),
-                  //     TextButton(
-                  //       child: Text('Cancel'),
-                  //       onPressed: () {
-                  //         Navigator.of(context).pop(); // Dismiss the dialog
-                  //       },
-                  //     ),
-                  //   ],
-                  // );
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Row(
-                        spacing: 2.0,
-                        children: [
-                          const Expanded(
-                            child: Text(
-                              "امروز فقط یک حرف می‌توانی یاد بگیری 😊",
-                              style: TextStyle(color: Colors.black),
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Row(
+                          children: [
+                            const Expanded(
+                              child: Text(
+                                "امروز فقط یک حرف می‌توانی یاد بگیری 😊",
+                                style: TextStyle(color: Colors.black),
+                              ),
                             ),
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.close, color: Colors.black),
-                            onPressed: () {
-                              ScaffoldMessenger.of(
-                                context,
-                              ).hideCurrentSnackBar();
-                            },
-                          ),
-                        ],
-                      ),
-                      backgroundColor: Colors.white,
-                      behavior: SnackBarBehavior.floating,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        side: const BorderSide(
-                          color: Color(0xFFFFD3E0),
-                          width: 1,
+                            IconButton(
+                              icon: const Icon(Icons.close, color: Colors.black),
+                              onPressed: () {
+                                ScaffoldMessenger.of(
+                                  context,
+                                ).hideCurrentSnackBar();
+                              },
+                            ),
+                          ],
                         ),
+                        backgroundColor: Colors.white,
+                        behavior: SnackBarBehavior.floating,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          side: const BorderSide(
+                            color: Color(0xFFFFD3E0),
+                            width: 1,
+                          ),
+                        ),
+                        duration: const Duration(seconds: 10),
                       ),
-                      duration: const Duration(seconds: 10),
-                    ),
-                  );
+                    );
+                  }
                   return;
                 }
 
                 await saveOpenedLetter(index);
 
-                Navigator.of(context).push(
+                if (!completedLetters.contains(index)) {
+                  setState(() {
+                    completedLetters.add(index);
+                  });
+                  await _saveCompleted();
+                }
+
+                await Navigator.of(context).push(
                   PageRouteBuilder(
                     transitionDuration: Duration(milliseconds: 500),
                     pageBuilder: (_, animation, __) {
                       return LetterPagerScreen(
                         alphabets: alphabets,
                         initialIndex: index,
-                        lockedIndex: index,
                       );
                     },
                     transitionsBuilder: (_, animation, __, child) {
@@ -192,11 +165,8 @@ class _AlphabetScreenState extends State<AlphabetScreen> {
                   ),
                 );
 
-                if (!completedLetters.contains(index)) {
-                  setState(() {
-                    completedLetters.add(index);
-                  });
-                  await _saveCompleted();
+                if (mounted) {
+                  await _loadCompleted();
                 }
               },
               child: Container(
