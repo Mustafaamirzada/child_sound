@@ -26,7 +26,7 @@ class QuizScreen extends StatelessWidget {
             _buildQuizCard(
               context,
               icon: Icons.abc,
-              title: "کوئیز حروف",
+              title: "امتحان حروف",
               subtitle: "حرف اول تصویر را پیدا کن",
               color: Colors.deepPurple,
               isLetter: true,
@@ -35,7 +35,7 @@ class QuizScreen extends StatelessWidget {
             _buildQuizCard(
               context,
               icon: Icons.image,
-              title: "کوئیز تصاویر",
+              title: "امتحان تصاویر",
               subtitle: "کلمه درست را برای تصویر انتخاب کن",
               color: Colors.teal,
               isLetter: false,
