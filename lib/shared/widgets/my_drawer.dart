@@ -1,4 +1,5 @@
 import 'package:child_sound/features/profile/presentation/profile_screen.dart';
+import 'package:child_sound/shared/widgets/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -152,13 +153,7 @@ class _AppDrawerState extends State<AppDrawer> {
     return ListTile(
       leading: Icon(icon, color: Colors.deepPurple.shade300),
       title: Text(title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-      trailing: Icon(
-        Directionality.of(context) == TextDirection.rtl
-            ? Icons.arrow_back_ios_new
-            : Icons.arrow_forward_ios,
-        size: 16,
-        color: Colors.grey,
-      ),
+      trailing: Icon(AppIcons.forward(context), size: 16, color: Colors.grey),
       onTap: onTap,
     );
   }
