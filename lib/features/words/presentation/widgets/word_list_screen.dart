@@ -7,12 +7,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class WordListScreen extends StatefulWidget {
   final String title;
+  final String storageKey;
   final List<WordItem> words;
   final List<Color> gradientColors;
 
   const WordListScreen({
     super.key,
     required this.title,
+    required this.storageKey,
     required this.words,
     required this.gradientColors,
   });
@@ -33,8 +35,8 @@ class _WordListScreenState extends State<WordListScreen> {
   Future<void> _loadCompleted() async {
     final prefs = await SharedPreferences.getInstance();
     final List<String>? saved = prefs.getStringList(
-      widget.title,
-    ); // unique key per screen
+      widget.storageKey,
+    ); // stable key per screen
 
     if (saved != null) {
       setState(() {
@@ -46,7 +48,7 @@ class _WordListScreenState extends State<WordListScreen> {
   Future<void> _saveCompleted() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setStringList(
-      widget.title,
+      widget.storageKey,
       completedLetters.map((e) => e.toString()).toList(),
     );
   }
@@ -64,14 +66,21 @@ class _WordListScreenState extends State<WordListScreen> {
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: () async {
-              Navigator.of(context).push(
+              if (!completedLetters.contains(index)) {
+                setState(() {
+                  completedLetters.add(index);
+                });
+                await _saveCompleted();
+              }
+
+              await Navigator.of(context).push(
                 PageRouteBuilder(
                   transitionDuration: Duration(milliseconds: 500),
                   pageBuilder: (_, animation, __) {
                     return WordPagerScreen(
                       words: widget.words,
                       initialIndex: index,
-                      completed: completedLetters.length,
+                      storageKey: widget.storageKey,
                     );
                   },
                   transitionsBuilder: (_, animation, __, child) {
@@ -86,12 +95,8 @@ class _WordListScreenState extends State<WordListScreen> {
                 ),
               );
 
-              if (!completedLetters.contains(index)) {
-                setState(() {
-                  completedLetters.add(index);
-                });
-                print(completedLetters.length);
-                await _saveCompleted();
+              if (mounted) {
+                await _loadCompleted();
               }
             },
             child: Stack(
