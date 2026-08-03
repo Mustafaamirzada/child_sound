@@ -1,30 +1,36 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:child_sound/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
+  testWidgets('App boots to main navigation when onboarding is done',
+      (WidgetTester tester) async {
+    SharedPreferences.setMockInitialValues({
+      "onboarding_done": true,
+      "userName": "مصطفی",
+    });
+
     await tester.pumpWidget(MyApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    // Let the splash delay elapse and the startup decision run.
+    await tester.pump(const Duration(milliseconds: 500));
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    // Main navigation should now be visible with all 5 tabs.
+    expect(find.text("الفبا"), findsOneWidget);
+    expect(find.text("کلمات"), findsOneWidget);
+    expect(find.text("کوئیز"), findsOneWidget);
+    expect(find.text("داشبورد"), findsOneWidget);
+    expect(find.text("پروفایل"), findsOneWidget);
+  });
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+  testWidgets('First launch shows the name input screen',
+      (WidgetTester tester) async {
+    SharedPreferences.setMockInitialValues({});
+
+    await tester.pumpWidget(MyApp());
+    await tester.pump(const Duration(milliseconds: 500));
+
+    expect(find.text("به Child Sound خوش آمدی!"), findsOneWidget);
   });
 }
