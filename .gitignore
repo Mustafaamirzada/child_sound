@@ -32,7 +32,8 @@ migrate_working_dir/
 .pub/
 /build/
 /coverage/
-/assets/
+/assets/sounds/
+/assets/images/
 
 # Symbolication related
 app.*.symbols
