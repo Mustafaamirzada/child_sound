@@ -3,5 +3,5 @@ class WordItem {
   final String emoji;
   final String sound;
 
-  WordItem({required this.word, required this.emoji, required this.sound});
+  WordItem({required this.word, required this.emoji, this.sound = ''});
 }
